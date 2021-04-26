@@ -233,3 +233,58 @@ var searchRange = function (nums, target) {
   }
 };
 console.log(searchRange([5, 7, 7, 8, 8, 10], 8));
+
+//Sliding window
+/**
+ * @param {number[]} tree
+ * @return {number}
+ */
+var totalFruit = function(tree) {
+    //sliding window 
+    //keep track of star of window
+    let windowStart = 0;
+    //fruit limit is 2 
+    let fruitLimit = 2;
+    //keep track of max fruits possibles 
+    let maxFruits = -Infinity;
+    //keep track of unique fruits 
+    let uniqueFruits = 0;
+    //keep track of current fruits 
+    let currentFruitsCount = 0;
+    //keep track of frequency of fruits
+    let frequency = new Map();
+    //iterate through tree array, initialize it at end of window
+    for(let windowEnd = 0; windowEnd < tree.length; windowEnd += 1){
+    //if curren num is not frequency, add to to hash map and add one to unique frequency 
+    if(!frequency[tree[windowEnd]]){
+        frequency[tree[windowEnd]] = 1;
+        uniqueFruits += 1;
+    }else{
+       //else add one to current key and add one current fruits 
+        frequency[tree[windowEnd]] += 1;
+    }
+     currentFruitsCount += 1
+    //while unique fruits is greater than limit    
+    while(uniqueFruits > fruitLimit ){
+        //subtrack frequency of fruits
+     currentFruitsCount -= 1;
+    //if start of window has a key greater than 1, subtrack to current key 
+     if(frequency[tree[windowStart]] > 1 ){
+         frequency[tree[windowStart]] -= 1;
+     }else{
+      //else delete the key and subtrack from unique fruits  
+        delete frequency[tree[windowStart]]
+         uniqueFruits -= 1;
+     }
+      windowStart += 1;
+        //add one to window start
+    }
+//outside of while loop, check if currentFruitsCount is greater than max fruits possible   
+    maxFruits = Math.max(maxFruits,currentFruitsCount )
+      
+    }
+
+    return maxFruits;
+    //return max fruits
+    
+};
